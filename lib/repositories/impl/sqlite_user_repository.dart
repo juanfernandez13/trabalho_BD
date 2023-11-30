@@ -8,12 +8,12 @@ class SqliteUserRepository implements UsuarioRepository {
   SqliteUserRepository._criar();
 
   @override
-  Future carregarDB() async {
+  Future loadDB() async {
     return SqliteUserRepository._criar();
   }
 
   @override
-  Future<List<UserModel>> obterDados() async {
+  Future<List<UserModel>> getUsers() async {
     List<UserModel> userList = [];
     var db = await SqliteDatabase().getDatabase();
     var result = await db.rawQuery('SELECT * FROM user');
@@ -21,7 +21,7 @@ class SqliteUserRepository implements UsuarioRepository {
     return userList;
   }
 
-  Future<List<TaskModel>> obterDadosTarefa() async {
+  Future<List<TaskModel>> getTasks() async {
     List<TaskModel> userList = [];
     var db = await SqliteDatabase().getDatabase();
     var result = await db.rawQuery('SELECT * FROM task');
@@ -30,7 +30,7 @@ class SqliteUserRepository implements UsuarioRepository {
   }
 
   @override
-  Future<List<TaskModel>> obterQtdTarefasUsuario() async {
+  Future<List<TaskModel>> getLengthUserTasks() async {
     List<TaskModel> tarefaList = [];
     var db = await SqliteDatabase().getDatabase();
     var result = await db.rawQuery(
@@ -40,7 +40,7 @@ class SqliteUserRepository implements UsuarioRepository {
   }
 
   @override
-  Future<List<UserModel>> tarefaUsuario(String id) async {
+  Future<List<UserModel>> getUserTasks(String id) async {
     List<UserModel> userList = [];
     var db = await SqliteDatabase().getDatabase();
     var result = await db.rawQuery('''SELECT user.name, task.description
@@ -52,14 +52,14 @@ class SqliteUserRepository implements UsuarioRepository {
   }
 
   @override
-  Future<void> salvar(UserModel user) async {
+  Future<void> saveUser(UserModel user) async {
     var db = await SqliteDatabase().getDatabase();
     await db.rawInsert('INSERT INTO user (name, cpf, email) values(?,?,?)',
         [user.name, user.cpf, user.email]);
   }
 
   @override
-  Future<void> salvarTarefa(TaskModel task) async {
+  Future<void> saveTask(TaskModel task) async {
     var db = await SqliteDatabase().getDatabase();
     await db.rawInsert(
         'INSERT INTO task (description, isCompleted, idUser) values(?,?,?)',
@@ -67,7 +67,7 @@ class SqliteUserRepository implements UsuarioRepository {
   }
 
   @override
-  Future<void> alterarTarefa(TaskModel task) async {
+  Future<void> updateTask(TaskModel task) async {
     var db = await SqliteDatabase().getDatabase();
     await db.rawInsert('UPDATE task SET description = ?, isCompleted = ?', [
       task.description,
@@ -76,20 +76,20 @@ class SqliteUserRepository implements UsuarioRepository {
   }
 
   @override
-  Future<void> excluirTarefa(TaskModel task) async {
+  Future<void> deleteTask(TaskModel task) async {
     var db = await SqliteDatabase().getDatabase();
     await db.rawInsert('DELETE FROM task idTask = ?', [task.idTask]);
   }
 
   @override
-  Future<void> alterar(UserModel user) async {
+  Future<void> updateUser(UserModel user) async {
     var db = await SqliteDatabase().getDatabase();
     await db.rawInsert('UPDATE user SET name = ?, cpf = ?, email = ?',
         [user.name, user.cpf, user.email]);
   }
 
   @override
-  Future<void> excluir(UserModel user) async {
+  Future<void> deleteUser(UserModel user) async {
     var db = await SqliteDatabase().getDatabase();
     await db.rawInsert('DELETE FROM user idUser = ?', [user.idUser]);
   }

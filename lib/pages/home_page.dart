@@ -25,10 +25,10 @@ class _HomePageState extends State<HomePage> {
                   //await userRepository.salvar(UserModel("", "marcelo", "78978978944", "marcelo@gmail.com"));
                   //await userRepository.salvarTarefa(TaskModel("", "1", "segunda descrição", false));
                   //await userRepository.salvarTarefa(TaskModel("", "2", "terceira descrição", false));
-                  await userRepository.obterDados();
-                  await userRepository.obterDadosTarefa();
-                  await userRepository.obterQtdTarefasUsuario();
-                  await userRepository.tarefaUsuario("1");
+                  await userRepository.getUsers();
+                  await userRepository.getTasks();
+                  await userRepository.getLengthUserTasks();
+                  await userRepository.getUserTasks("1");
                 }),
           )
         ],

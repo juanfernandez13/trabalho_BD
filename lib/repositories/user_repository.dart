@@ -2,15 +2,15 @@ import 'package:app_users/models/task_model.dart';
 import 'package:app_users/models/user_model.dart';
 
 abstract class UsuarioRepository {
-  Future carregarDB();
-  Future<void> salvar(UserModel user);
-  Future<void> alterar(UserModel user);
-  Future<void> excluir(UserModel user);
-  Future<void> salvarTarefa(TaskModel tarefa);
-  Future<void> alterarTarefa(TaskModel tarefa);
-  Future<void> excluirTarefa(TaskModel tarefa);
-  Future<List<UserModel>> obterDados();
-  Future<List<TaskModel>> obterDadosTarefa();
-  Future<List<TaskModel>> obterQtdTarefasUsuario();
-  Future<List<UserModel>> tarefaUsuario(String id);
+  Future loadDB();
+  Future<void> saveUser(UserModel user);
+  Future<void> updateUser(UserModel user);
+  Future<void> deleteUser(UserModel user);
+  Future<void> saveTask(TaskModel task);
+  Future<void> updateTask(TaskModel task);
+  Future<void> deleteTask(TaskModel task);
+  Future<List<UserModel>> getUsers();
+  Future<List<TaskModel>> getTasks();
+  Future<List<TaskModel>> getLengthUserTasks();
+  Future<List<UserModel>> getUserTasks(String id);
 }
