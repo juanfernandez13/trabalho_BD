@@ -15,6 +15,7 @@ Map<int, String> scripts = {
   CREATE TABLE user (
     idUser INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
+    age INTEGER NOT NULL,
     cpf TEXT NOT NULL,
     email TEXT NOT NULL
   );
