@@ -14,34 +14,47 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   UsuarioRepository userRepository = SqliteUserRepository();
+  List<UserModel> listUsers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadUsers();
+  }
+
+  void loadUsers() async {
+    listUsers = await userRepository.getUsers();
+    setState(() {
+      
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: TextButton(
-                child: const Text("fgfdf"),
-                onPressed: () async {
-                  //await userRepository.saveUser(UserModel("", "joao2", 20, "78978978944", "joao@gmail.com"));
-                  //await userRepository.saveUser(UserModel("", "juan", 30,"78978978944", "juan@gmail.com"));
-                  //await userRepository.saveTask(TaskModel("", "1", "primeira descrição", false));
-                  //await userRepository.saveTask(TaskModel("", "1", "segunda descrição", false));
-                  //await userRepository.saveTask(TaskModel("", "2", "terceira descrição", false));
-                  //await userRepository.getUsers();
-                  //await userRepository.getTasks();
-                  //await userRepository.getLengthUserTasks();
-                  //await userRepository.getUserTasks("1");
-                  //await userRepository.getUsersWithTask();
-                  //await userRepository.getOlderUser();
-                  //await userRepository.getNewestUser();
-                  await userRepository.getAvgAgeUser();
-                }),
-          )
-        ],
-      ),
+    return SafeArea(
+      child: Scaffold(
+          appBar: AppBar(
+            title: const Center(child: Text('Lista de usuários')),
+            backgroundColor: Colors.blue,
+          ),
+          body: Column(
+            children: [
+              Expanded(
+                  child: ListView.builder(
+                      itemCount: listUsers.length,
+                      itemBuilder: (context, index) {
+                        UserModel user = listUsers[index];
+                        print(listUsers);
+                        return ListTile(
+                          title: Text(user.name),
+                          subtitle: Text(
+                            user.email,
+                          ),
+                          leading: const Icon(Icons.person_2_rounded),
+                        );
+                      }))
+            ],
+          )),
     );
   }
 }

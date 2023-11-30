@@ -17,7 +17,14 @@ class SqliteUserRepository implements UsuarioRepository {
     List<UserModel> userList = [];
     var db = await SqliteDatabase().getDatabase();
     var result = await db.rawQuery('SELECT * FROM user');
-    print(result);
+    for (var e in result) {
+      userList.add(UserModel(
+          e["idUser"].toString(),
+          e["name"].toString(),
+          int.tryParse(e["age"].toString()) ?? 0,
+          e["cpf"].toString(),
+          e["email"].toString()));
+    }
     return userList;
   }
 
@@ -108,8 +115,8 @@ class SqliteUserRepository implements UsuarioRepository {
   @override
   Future<int> getOlderUser() async {
     var db = await SqliteDatabase().getDatabase();
-    var result = await db.rawQuery(
-        'SELECT user.name , MAX(user.age) FROM user');
+    var result =
+        await db.rawQuery('SELECT user.name , MAX(user.age) FROM user');
     print(result);
     return 0;
   }
@@ -117,7 +124,8 @@ class SqliteUserRepository implements UsuarioRepository {
   @override
   Future<int> getNewestUser() async {
     var db = await SqliteDatabase().getDatabase();
-    var result = await db.rawQuery('SELECT user.name , MIN(user.age) FROM user');
+    var result =
+        await db.rawQuery('SELECT user.name , MIN(user.age) FROM user');
     print(result);
     return 0;
   }
