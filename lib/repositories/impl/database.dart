@@ -3,18 +3,18 @@ import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
 
 Map<int, String> scripts = {
-  1: '''CREATE TABLE tarefa (
-    idTarefa INTEGER PRIMARY KEY AUTOINCREMENT,
-    descricao TEXT NOT NULL,
-    concluida INTEGER NOT NULL,
-    idUsuario INTEGER NOT NULL,
-    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
+  1: '''CREATE TABLE task (
+    idTask INTEGER PRIMARY KEY AUTOINCREMENT,
+    description TEXT NOT NULL,
+    isCompleted INTEGER NOT NULL,
+    idUser INTEGER NOT NULL,
+    FOREIGN KEY (idUser) REFERENCES user(idUser)
   );
 ''',
   2: '''
-  CREATE TABLE usuario (
-    idUsuario INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL,
+  CREATE TABLE user (
+    idUser INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
     cpf TEXT NOT NULL,
     email TEXT NOT NULL
   );
@@ -23,7 +23,7 @@ Map<int, String> scripts = {
 
 class SqliteDatabase {
   static Database? db;
-  Future<Database> obterDatabase() async {
+  Future<Database> getDatabase() async {
     if (db == null) {
       return await initDB();
     } else {
@@ -33,6 +33,7 @@ class SqliteDatabase {
 }
 
 Future initDB() async {
+  //deleteDatabase(path.join(await getDatabasesPath(),'database.db'));
   var db = openDatabase(path.join(await getDatabasesPath(), 'database.db'),
       version: scripts.length, onCreate: (Database db, int index) async {
     for (var i = 1; i <= scripts.length; i++) {
