@@ -1,6 +1,41 @@
 # app_users
 
-A new Flutter project.
+Trabalho final da disciplina de banco de dados IFCE - Fortaleza
+
+## 🛠️ Construído com
+
+[Duck Duck Go](https://duckduckgo.com) <br>
+[Virtual Studio Code](https://code.visualstudio.com) <br>
+[Xcode](https://developer.apple.com/xcode/) <br>
+
+
+## 🖇️ Colaborando
+
+Veja o arquivo [CONTRIBUTING.md]() para detalhes.
+
+## 🔍 Pesquisas
+
+Veja o arquivo [PESQUISAS.md]() para detalhes.
+
+## 📌 Versão
+
+| Version | Supported          |
+| ------- | ------------------ |
+| 1.0     | :white_check_mark: |
+
+Veja o arquivo [SECURITY.md]() para detalhes.
+
+
+## ✒️ Autores
+
+* **Juan Pablo** - *Trabalho Inicial* - [Juan Pablo](https://github.com/juanfernandez13)
+* **João Alexandre** - *Trabalho Inicial* - [João Alexandre](https://github.com/AIWASS23)
+* **Jhonny Leite** - *Trabalho Inicial* - [Jhonny Leite]()
+* **Marcelo De Araújo** - *Trabalho Inicial* - [Marcelo De Araújo]()
+
+## 📄 Licença
+
+Este projeto está sob a licença (MIT) - veja o arquivo [LICENSE.md]() para detalhes.
 
 ## Getting Started
 

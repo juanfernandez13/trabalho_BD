@@ -21,6 +21,7 @@ class SqliteUserRepository implements UsuarioRepository {
     return userList;
   }
 
+  @override
   Future<List<TaskModel>> getTasks() async {
     List<TaskModel> userList = [];
     var db = await SqliteDatabase().getDatabase();
