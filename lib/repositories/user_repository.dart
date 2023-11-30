@@ -12,5 +12,9 @@ abstract class UsuarioRepository {
   Future<List<UserModel>> getUsers();
   Future<List<TaskModel>> getTasks();
   Future<List<TaskModel>> getLengthUserTasks();
+  Future<List<TaskModel>> getUsersWithTask();
   Future<List<UserModel>> getUserTasks(String id);
+  Future<dynamic> getOlderUser();
+  Future<dynamic> getNewestUser();
+  Future<dynamic> getAvgAgeUser();
 }

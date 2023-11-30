@@ -35,7 +35,7 @@ class SqliteUserRepository implements UsuarioRepository {
     List<TaskModel> tarefaList = [];
     var db = await SqliteDatabase().getDatabase();
     var result = await db.rawQuery(
-        'SELECT user.name, COUNT(task.idTask) FROM task INNER JOIN user GROUP BY user.idUser');
+        'SELECT user.name, COUNT(task.idTask) FROM user INNER JOIN task ON user.idUser = task.idUser GROUP BY user.idUser');
     print(result);
     return tarefaList;
   }
@@ -46,7 +46,7 @@ class SqliteUserRepository implements UsuarioRepository {
     var db = await SqliteDatabase().getDatabase();
     var result = await db.rawQuery('''SELECT user.name, task.description
                                         FROM user 
-                                        INNER JOIN task
+                                        INNER JOIN task ON user.idUser = task.idUser
                                         WHERE user.idUser = ?''', [id]);
     print(result);
     return userList;
@@ -55,8 +55,9 @@ class SqliteUserRepository implements UsuarioRepository {
   @override
   Future<void> saveUser(UserModel user) async {
     var db = await SqliteDatabase().getDatabase();
-    await db.rawInsert('INSERT INTO user (name, cpf, email) values(?,?,?)',
-        [user.name, user.cpf, user.email]);
+    await db.rawInsert(
+        'INSERT INTO user (name, age,cpf, email) values(?,?,?,?)',
+        [user.name, user.age, user.cpf, user.email]);
   }
 
   @override
@@ -70,7 +71,7 @@ class SqliteUserRepository implements UsuarioRepository {
   @override
   Future<void> updateTask(TaskModel task) async {
     var db = await SqliteDatabase().getDatabase();
-    await db.rawInsert('UPDATE task SET description = ?, isCompleted = ?', [
+    await db.rawUpdate('UPDATE task SET description = ?, isCompleted = ?', [
       task.description,
       task.isCompleted ? 1 : 0,
     ]);
@@ -79,19 +80,53 @@ class SqliteUserRepository implements UsuarioRepository {
   @override
   Future<void> deleteTask(TaskModel task) async {
     var db = await SqliteDatabase().getDatabase();
-    await db.rawInsert('DELETE FROM task idTask = ?', [task.idTask]);
+    await db.rawDelete('DELETE FROM task idTask = ?', [task.idTask]);
   }
 
   @override
   Future<void> updateUser(UserModel user) async {
     var db = await SqliteDatabase().getDatabase();
-    await db.rawInsert('UPDATE user SET name = ?, cpf = ?, email = ?',
+    await db.rawUpdate('UPDATE user SET name = ?, cpf = ?, email = ?',
         [user.name, user.cpf, user.email]);
   }
 
   @override
   Future<void> deleteUser(UserModel user) async {
     var db = await SqliteDatabase().getDatabase();
-    await db.rawInsert('DELETE FROM user idUser = ?', [user.idUser]);
+    await db.rawDelete('DELETE FROM user idUser = ?', [user.idUser]);
+  }
+
+  @override
+  Future<List<TaskModel>> getUsersWithTask() async {
+    var db = await SqliteDatabase().getDatabase();
+    var result = await db.rawQuery(
+        "SELECT DISTINCT user.idUser, user.name FROM user INNER JOIN task ON user.idUser = task.idUser");
+    print(result);
+    return [];
+  }
+
+  @override
+  Future<int> getOlderUser() async {
+    var db = await SqliteDatabase().getDatabase();
+    var result = await db.rawQuery(
+        'SELECT user.name , MAX(user.age) FROM user');
+    print(result);
+    return 0;
+  }
+
+  @override
+  Future<int> getNewestUser() async {
+    var db = await SqliteDatabase().getDatabase();
+    var result = await db.rawQuery('SELECT user.name , MIN(user.age) FROM user');
+    print(result);
+    return 0;
+  }
+
+  @override
+  Future<int> getAvgAgeUser() async {
+    var db = await SqliteDatabase().getDatabase();
+    var result = await db.rawQuery('SELECT AVG(user.age) FROM user');
+    print(result);
+    return 0;
   }
 }
