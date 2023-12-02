@@ -3,13 +3,13 @@ import 'package:app_users/models/user_model.dart';
 import 'package:app_users/repositories/impl/database.dart';
 import 'package:app_users/repositories/user_repository.dart';
 
-class SqliteUserRepository implements SqliteRepository {
-  SqliteUserRepository();
-  SqliteUserRepository._criar();
+class SqliteRepositoryImpl implements SqliteRepository {
+  SqliteRepositoryImpl();
+  SqliteRepositoryImpl._criar();
 
   @override
   Future loadDB() async {
-    return SqliteUserRepository._criar();
+    return SqliteRepositoryImpl._criar();
   }
 
   @override
@@ -92,7 +92,7 @@ class SqliteUserRepository implements SqliteRepository {
   @override
   Future<void> deleteTask(TaskModel task) async {
     var db = await SqliteDatabase().getDatabase();
-    await db.rawDelete('DELETE FROM task idTask = ?', [task.idTask]);
+    await db.rawDelete('DELETE FROM task WHERE idTask = ?', [task.idTask]);
   }
 
   @override
@@ -105,7 +105,7 @@ class SqliteUserRepository implements SqliteRepository {
   @override
   Future<void> deleteUser(UserModel user) async {
     var db = await SqliteDatabase().getDatabase();
-    await db.rawDelete('DELETE FROM user idUser = ?', [user.idUser]);
+    await db.rawDelete('DELETE FROM user WHERE idUser = ?', [user.idUser]);
   }
 
   @override
@@ -118,28 +118,27 @@ class SqliteUserRepository implements SqliteRepository {
   }
 
   @override
-  Future<int> getOlderUser() async {
+  Future<String> getOlderUser() async {
     var db = await SqliteDatabase().getDatabase();
     var result =
         await db.rawQuery('SELECT user.name , MAX(user.age) FROM user');
-    print(result);
-    return 0;
+    return result[0]['MAX(user.age)'].toString();
   }
 
   @override
-  Future<int> getNewestUser() async {
+  Future<String> getAvgAgeUser() async {
+    String avg = "";
+    var db = await SqliteDatabase().getDatabase();
+    var result = await db.rawQuery('SELECT AVG(user.age) FROM user');
+    avg = result[0]['AVG(user.age)'].toString();
+    return avg;
+  }
+
+  @override
+  Future<String> getNewestUser() async {
     var db = await SqliteDatabase().getDatabase();
     var result =
         await db.rawQuery('SELECT user.name , MIN(user.age) FROM user');
-    print(result);
-    return 0;
-  }
-
-  @override
-  Future<int> getAvgAgeUser() async {
-    var db = await SqliteDatabase().getDatabase();
-    var result = await db.rawQuery('SELECT AVG(user.age) FROM user');
-    print(result);
-    return 0;
+    return result[0]['MIN(user.age)'].toString();
   }
 }

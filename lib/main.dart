@@ -1,4 +1,4 @@
-import 'package:app_users/pages/home_page.dart';
+import 'package:app_users/pages/dashboard_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +16,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: HomePage(),
+      debugShowCheckedModeBanner: false,
+      home: DashBoardPage(),
     );
   }
 }

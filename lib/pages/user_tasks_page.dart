@@ -12,7 +12,7 @@ class UserTasksPage extends StatefulWidget {
 }
 
 class _UserTasksPageState extends State<UserTasksPage> {
-  SqliteRepository sqliteUserRepository = SqliteUserRepository();
+  SqliteRepository sqliteUserRepository = SqliteRepositoryImpl();
   List<TaskModel> userTasksList = [];
   @override
   void initState() {
