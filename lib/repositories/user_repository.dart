@@ -1,7 +1,7 @@
 import 'package:app_users/models/task_model.dart';
 import 'package:app_users/models/user_model.dart';
 
-abstract class UsuarioRepository {
+abstract class SqliteRepository {
   Future loadDB();
   Future<void> saveUser(UserModel user);
   Future<void> updateUser(UserModel user);
@@ -13,7 +13,7 @@ abstract class UsuarioRepository {
   Future<List<TaskModel>> getTasks();
   Future<List<TaskModel>> getLengthUserTasks();
   Future<List<TaskModel>> getUsersWithTask();
-  Future<List<UserModel>> getUserTasks(String id);
+  Future<List<TaskModel>> getUserTasks(String id);
   Future<dynamic> getOlderUser();
   Future<dynamic> getNewestUser();
   Future<dynamic> getAvgAgeUser();

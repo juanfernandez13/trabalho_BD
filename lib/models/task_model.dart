@@ -7,10 +7,10 @@ class TaskModel {
   TaskModel(this.idTask, this.idUser, this.description, this.isCompleted);
 
   TaskModel.fromJson(Map<String, dynamic> json) {
-    idTask = json['idTask'];
-    idUser = json['idUser'];
+    idTask = json['idTask'].toString();
+    idUser = json['idUser'].toString();
     description = json['description'];
-    isCompleted = json['isCompleted'];
+    isCompleted = json['isCompleted'] == 1;
   }
 
   Map<String, dynamic> toJson() {

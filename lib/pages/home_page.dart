@@ -1,3 +1,4 @@
+import 'package:app_users/pages/tasks_page.dart';
 import 'package:app_users/repositories/impl/sqlite_user_repository.dart';
 import 'package:app_users/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  UsuarioRepository userRepository = SqliteUserRepository();
+  SqliteRepository userRepository = SqliteUserRepository();
   List<UserModel> listUsers = [];
 
   @override
@@ -24,9 +25,8 @@ class _HomePageState extends State<HomePage> {
 
   void loadUsers() async {
     listUsers = await userRepository.getUsers();
-    setState(() {
-      
-    });
+    //await userRepository.saveTask(TaskModel("", "2", "tarefa concluida", true));
+    setState(() {});
   }
 
   @override
@@ -44,13 +44,17 @@ class _HomePageState extends State<HomePage> {
                       itemCount: listUsers.length,
                       itemBuilder: (context, index) {
                         UserModel user = listUsers[index];
-                        print(listUsers);
                         return ListTile(
                           title: Text(user.name),
                           subtitle: Text(
                             user.email,
                           ),
                           leading: const Icon(Icons.person_2_rounded),
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) =>
+                                      UserTasksPage(id: user.idUser))),
                         );
                       }))
             ],

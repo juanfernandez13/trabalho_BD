@@ -3,7 +3,7 @@ import 'package:app_users/models/user_model.dart';
 import 'package:app_users/repositories/impl/database.dart';
 import 'package:app_users/repositories/user_repository.dart';
 
-class SqliteUserRepository implements UsuarioRepository {
+class SqliteUserRepository implements SqliteRepository {
   SqliteUserRepository();
   SqliteUserRepository._criar();
 
@@ -48,15 +48,20 @@ class SqliteUserRepository implements UsuarioRepository {
   }
 
   @override
-  Future<List<UserModel>> getUserTasks(String id) async {
-    List<UserModel> userList = [];
+  Future<List<TaskModel>> getUserTasks(String id) async {
+    List<TaskModel> userTasksList = [];
     var db = await SqliteDatabase().getDatabase();
-    var result = await db.rawQuery('''SELECT user.name, task.description
+    var result = await db.rawQuery(
+        '''SELECT task.idTask, task.idUser, task.isCompleted, task.description
                                         FROM user 
                                         INNER JOIN task ON user.idUser = task.idUser
                                         WHERE user.idUser = ?''', [id]);
-    print(result);
-    return userList;
+    //print(result);
+    for (var e in result) {
+      userTasksList.add(TaskModel.fromJson(e));
+    }
+    //print(userTasksList);
+    return userTasksList;
   }
 
   @override
