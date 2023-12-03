@@ -29,22 +29,64 @@ class SqliteRepositoryImpl implements SqliteRepository {
   }
 
   @override
-  Future<List<TaskModel>> getTasks() async {
-    List<TaskModel> userList = [];
+  Future<UserModel> getUserById(String id) async {
+    late UserModel user;
     var db = await SqliteDatabase().getDatabase();
-    var result = await db.rawQuery('SELECT * FROM task');
-    print(result);
-    return userList;
+    var result = await db.rawQuery('SELECT * FROM user WHERE userId = ?', [id]);
+    for (var e in result) {
+      user = UserModel.fromJson(e);
+    }
+    return user;
   }
 
   @override
-  Future<List<TaskModel>> getLengthUserTasks() async {
-    List<TaskModel> tarefaList = [];
+  Future<List<TaskModel>> getTasks() async {
+    List<TaskModel> taskList = [];
+    var db = await SqliteDatabase().getDatabase();
+    var result = await db.rawQuery('SELECT * FROM task');
+    for (var element in result) {
+      taskList.add(TaskModel.fromJson(element));
+    }
+    return taskList;
+  }
+
+  @override
+  Future<List<Map<String, int>>> getLengthUserTasks() async {
+    List<Map<String, int>> tarefaList = [];
+    var db = await SqliteDatabase().getDatabase();
+    var result = await db.rawQuery('''SELECT user.name, COUNT(task.idTask) 
+                              FROM user 
+                              INNER JOIN task ON user.idUser = task.idUser
+                              GROUP BY user.idUser''');
+    for (var element in result) {
+      tarefaList.add({
+        element['name'].toString():
+            int.tryParse(element['COUNT(task.idTask)'].toString()) ?? 0
+      });
+    }
+    return tarefaList;
+  }
+
+  @override
+  Future<Map<String, double>>
+      getCountTasksCompletedAndIncompleted() async {
+    Map<String, double> chartMap = {};
+    List<TaskModel> userTasksList = [];
     var db = await SqliteDatabase().getDatabase();
     var result = await db.rawQuery(
-        'SELECT user.name, COUNT(task.idTask) FROM user INNER JOIN task ON user.idUser = task.idUser GROUP BY user.idUser');
+        '''SELECT COUNT(*) AS completo FROM task GROUP BY task.isCompleted''');
+    chartMap["Completo"] = 0;
+    chartMap["Incompleto"] = 0;
+    if (result.isNotEmpty){
+    chartMap["Incompleto"] =
+        double.tryParse(result.first.values.single.toString()) ?? 0;
+    }
+    if (result.length == 2) {
+      chartMap["Completo"] = double.tryParse(result.last.values.single.toString()) ?? 0;
+    }
     print(result);
-    return tarefaList;
+    print(chartMap);
+    return chartMap;
   }
 
   @override
@@ -56,11 +98,9 @@ class SqliteRepositoryImpl implements SqliteRepository {
                                         FROM user 
                                         INNER JOIN task ON user.idUser = task.idUser
                                         WHERE user.idUser = ?''', [id]);
-    //print(result);
     for (var e in result) {
       userTasksList.add(TaskModel.fromJson(e));
     }
-    //print(userTasksList);
     return userTasksList;
   }
 
@@ -106,6 +146,7 @@ class SqliteRepositoryImpl implements SqliteRepository {
   Future<void> deleteUser(UserModel user) async {
     var db = await SqliteDatabase().getDatabase();
     await db.rawDelete('DELETE FROM user WHERE idUser = ?', [user.idUser]);
+    await db.rawDelete('DELETE FROM task WHERE idUser = ?', [user.idUser]);
   }
 
   @override

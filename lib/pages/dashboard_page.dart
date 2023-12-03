@@ -1,3 +1,4 @@
+import 'package:app_users/pages/tasks_page.dart';
 import 'package:app_users/pages/users_page.dart';
 import 'package:app_users/repositories/impl/sqlite_user_repository.dart';
 import 'package:app_users/repositories/user_repository.dart';
@@ -21,6 +22,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
     'Incompletas': 0.6,
     'Completas': 0.4
   };
+  List<Map<String, int>> lengthUserTasksList = [];
 
   @override
   void initState() {
@@ -32,6 +34,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
     max = await repository.getOlderUser();
     avg = await repository.getAvgAgeUser();
     min = await repository.getNewestUser();
+    lengthUserTasksList = await repository.getLengthUserTasks();
+    data = await repository.getCountTasksCompletedAndIncompleted();
     setState(() {});
   }
 
@@ -59,7 +63,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 chartValuesOptions: const ChartValuesOptions(
                   showChartValuesInPercentage: true,
                 ),
-                colorList: const [Colors.redAccent, Colors.greenAccent],
+                colorList: const [Colors.greenAccent,Colors.redAccent],
               ),
             ),
             Row(
@@ -67,52 +71,58 @@ class _DashBoardPageState extends State<DashBoardPage> {
               children: [
                 Card(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     child: Column(
                       children: [
-                        Text("Maior idade"),
-                        Text("$max"),
+                        const Text("Maior idade"),
+                        Text(max),
                       ],
                     ),
                   ),
                 ),
                 Card(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     child: Column(
                       children: [
-                        Text("media de idades"),
-                        Text("${avg}"),
+                        const Text("media de idades"),
+                        Text(avg),
                       ],
                     ),
                   ),
                 ),
                 Card(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     child: Column(
                       children: [
-                        Text("Menor idade"),
-                        Text("$min"),
+                        const Text("Menor idade"),
+                        Text(min),
                       ],
                     ),
                   ),
                 ),
               ],
             ),
-            const Center(
+            Center(
               child: Card(
-                margin: EdgeInsets.all(16),
+                margin: const EdgeInsets.all(16),
                 child: SizedBox(
                   width: 300,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(Icons.person),
-                        Text("Marcelo"),
-                        Text("4")
+                        const Icon(Icons.person),
+                        Text(
+                            "${lengthUserTasksList.isEmpty ? 0 : lengthUserTasksList[0].keys.single}"),
+                        Text(
+                            "${lengthUserTasksList.isEmpty ? 0 : lengthUserTasksList[0].values.single}")
                       ],
                     ),
                   ),
@@ -127,10 +137,11 @@ class _DashBoardPageState extends State<DashBoardPage> {
                   MaterialPageRoute(builder: (_) => const UsersPage())),
             ),
             ListTile(
-              leading: Icon(Icons.task),
-              title: Text("Ver todos as tarefas"),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () {},
+              leading: const Icon(Icons.task),
+              title: const Text("Ver todos as tarefas"),
+              trailing: const Icon(Icons.keyboard_arrow_right),
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => const TasksPage())),
             ),
           ],
         ),

@@ -10,8 +10,10 @@ abstract class SqliteRepository {
   Future<void> updateTask(TaskModel task);
   Future<void> deleteTask(TaskModel task);
   Future<List<UserModel>> getUsers();
+  Future<Map<String, double>> getCountTasksCompletedAndIncompleted();
+  Future<UserModel> getUserById(String id);
   Future<List<TaskModel>> getTasks();
-  Future<List<TaskModel>> getLengthUserTasks();
+  Future<List<Map<String, int>>> getLengthUserTasks();
   Future<List<TaskModel>> getUsersWithTask();
   Future<List<TaskModel>> getUserTasks(String id);
   Future<String> getOlderUser();

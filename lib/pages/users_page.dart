@@ -51,8 +51,8 @@ class _UsersPageState extends State<UsersPage> {
                             leading: const Icon(Icons.person_2_rounded),
                             trailing: FittedBox(fit: BoxFit.contain ,child: Row(
                               children: [
-                                IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DataUserPage(userModel: user,))), icon: Icon(Icons.edit)),
-                                IconButton(onPressed: () async => await userRepository.deleteUser(user), icon: Icon(Icons.delete)),
+                                IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DataUserPage(userModel: user,))), icon: const Icon(Icons.edit)),
+                                IconButton(onPressed: () async => await userRepository.deleteUser(user), icon: const Icon(Icons.delete)),
                               ],
                             ),),
                             onTap: () => Navigator.push(
@@ -64,13 +64,14 @@ class _UsersPageState extends State<UsersPage> {
                         }))
               ],
             ),
-            floatingActionButton: FloatingActionButton(
+            floatingActionButton: ElevatedButton(
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const DataUserPage(),
                 ),
               ),
+              child: const FittedBox(fit: BoxFit.contain , child: Row(children: [Icon(Icons.add),Text("Novo usuário")],)),
             )));
   }
 }
