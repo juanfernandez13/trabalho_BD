@@ -40,7 +40,7 @@ class _UsersPageState extends State<UsersPage> {
               children: [
                 Row(
                   children: [
-                    Text("Apenas usuários com tarefas"),
+                    const Text("Apenas usuários com tarefas"),
                     Switch(
                         value: switchValue,
                         onChanged: (value) async {

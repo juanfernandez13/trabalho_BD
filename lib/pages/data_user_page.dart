@@ -64,7 +64,8 @@ class _DataUserPageState extends State<DataUserPage> {
                           int.tryParse(ageController.text) ?? 0,
                           cpfController.text,
                           emailController.text));
-                  Navigator.pop(context);
+                  if(!context.mounted) return;
+                  Navigator.of(context).pop();
                 },
                 child: Text(
                     "${widget.userModel == null ? "Salvar" : "Editar"} usuário"))
