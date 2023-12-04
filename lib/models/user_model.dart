@@ -8,7 +8,7 @@ class UserModel {
   UserModel(this.idUser, this.name, this.age, this.cpf, this.email);
 
   UserModel.fromJson(Map<String, dynamic> json) {
-    idUser = json['idUser'];
+    idUser = json['idUser'].toString();
     name = json['name'];
     age = json['age'];
     cpf = json['cpf'];

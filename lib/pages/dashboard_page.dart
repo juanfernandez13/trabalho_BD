@@ -36,6 +36,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
     min = await repository.getNewestUser();
     lengthUserTasksList = await repository.getLengthUserTasks();
     data = await repository.getCountTasksCompletedAndIncompleted();
+    repository.getUsersWithTask();
     setState(() {});
   }
 
@@ -46,7 +47,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
         padding: EdgeInsets.symmetric(
             vertical: MediaQuery.of(context).padding.top, horizontal: 16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
@@ -63,7 +64,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 chartValuesOptions: const ChartValuesOptions(
                   showChartValuesInPercentage: true,
                 ),
-                colorList: const [Colors.greenAccent,Colors.redAccent],
+                colorList: const [Colors.greenAccent, Colors.redAccent],
               ),
             ),
             Row(
@@ -107,7 +108,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 ),
               ],
             ),
-            Center(
+            /*Center(
               child: Card(
                 margin: const EdgeInsets.all(16),
                 child: SizedBox(
@@ -128,7 +129,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                   ),
                 ),
               ),
-            ),
+            ),*/
             ListTile(
               leading: const Icon(Icons.person),
               title: const Text("Ver todos os usuários"),

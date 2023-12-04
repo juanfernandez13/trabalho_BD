@@ -15,7 +15,7 @@ class UsersPage extends StatefulWidget {
 class _UsersPageState extends State<UsersPage> {
   SqliteRepository userRepository = SqliteRepositoryImpl();
   List<UserModel> listUsers = [];
-
+  bool switchValue = false;
   @override
   void initState() {
     super.initState();
@@ -38,6 +38,20 @@ class _UsersPageState extends State<UsersPage> {
             ),
             body: Column(
               children: [
+                Row(
+                  children: [
+                    Text("Apenas usuários com tarefas"),
+                    Switch(
+                        value: switchValue,
+                        onChanged: (value) async {
+                          switchValue = value;
+                          listUsers = switchValue? await userRepository.getUsersWithTask() :await userRepository.getUsers(); 
+                          setState(() {
+                            
+                          });
+                        }),
+                  ],
+                ),
                 Expanded(
                     child: ListView.builder(
                         itemCount: listUsers.length,
@@ -49,12 +63,25 @@ class _UsersPageState extends State<UsersPage> {
                               user.email,
                             ),
                             leading: const Icon(Icons.person_2_rounded),
-                            trailing: FittedBox(fit: BoxFit.contain ,child: Row(
-                              children: [
-                                IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DataUserPage(userModel: user,))), icon: const Icon(Icons.edit)),
-                                IconButton(onPressed: () async => await userRepository.deleteUser(user), icon: const Icon(Icons.delete)),
-                              ],
-                            ),),
+                            trailing: FittedBox(
+                              fit: BoxFit.contain,
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => DataUserPage(
+                                                    userModel: user,
+                                                  ))),
+                                      icon: const Icon(Icons.edit)),
+                                  IconButton(
+                                      onPressed: () async =>
+                                          await userRepository.deleteUser(user),
+                                      icon: const Icon(Icons.delete)),
+                                ],
+                              ),
+                            ),
                             onTap: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -71,7 +98,11 @@ class _UsersPageState extends State<UsersPage> {
                   builder: (context) => const DataUserPage(),
                 ),
               ),
-              child: const FittedBox(fit: BoxFit.contain , child: Row(children: [Icon(Icons.add),Text("Novo usuário")],)),
+              child: const FittedBox(
+                  fit: BoxFit.contain,
+                  child: Row(
+                    children: [Icon(Icons.add), Text("Novo usuário")],
+                  )),
             )));
   }
 }

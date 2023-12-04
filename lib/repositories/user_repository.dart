@@ -14,7 +14,7 @@ abstract class SqliteRepository {
   Future<UserModel> getUserById(String id);
   Future<List<TaskModel>> getTasks();
   Future<List<Map<String, int>>> getLengthUserTasks();
-  Future<List<TaskModel>> getUsersWithTask();
+  Future<List<UserModel>> getUsersWithTask();
   Future<List<TaskModel>> getUserTasks(String id);
   Future<String> getOlderUser();
   Future<String> getNewestUser();

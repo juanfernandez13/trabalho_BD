@@ -68,8 +68,7 @@ class SqliteRepositoryImpl implements SqliteRepository {
   }
 
   @override
-  Future<Map<String, double>>
-      getCountTasksCompletedAndIncompleted() async {
+  Future<Map<String, double>> getCountTasksCompletedAndIncompleted() async {
     Map<String, double> chartMap = {};
     List<TaskModel> userTasksList = [];
     var db = await SqliteDatabase().getDatabase();
@@ -77,12 +76,13 @@ class SqliteRepositoryImpl implements SqliteRepository {
         '''SELECT COUNT(*) AS completo FROM task GROUP BY task.isCompleted''');
     chartMap["Completo"] = 0;
     chartMap["Incompleto"] = 0;
-    if (result.isNotEmpty){
-    chartMap["Incompleto"] =
-        double.tryParse(result.first.values.single.toString()) ?? 0;
+    if (result.isNotEmpty) {
+      chartMap["Incompleto"] =
+          double.tryParse(result.first.values.single.toString()) ?? 0;
     }
     if (result.length == 2) {
-      chartMap["Completo"] = double.tryParse(result.last.values.single.toString()) ?? 0;
+      chartMap["Completo"] =
+          double.tryParse(result.last.values.single.toString()) ?? 0;
     }
     print(result);
     print(chartMap);
@@ -123,9 +123,10 @@ class SqliteRepositoryImpl implements SqliteRepository {
   @override
   Future<void> updateTask(TaskModel task) async {
     var db = await SqliteDatabase().getDatabase();
-    await db.rawUpdate('UPDATE task SET description = ?, isCompleted = ?', [
+    await db.rawUpdate('UPDATE task SET description = ?, isCompleted = ? WHERE task.idTask = ?', [
       task.description,
       task.isCompleted ? 1 : 0,
+      task.idTask
     ]);
   }
 
@@ -150,12 +151,15 @@ class SqliteRepositoryImpl implements SqliteRepository {
   }
 
   @override
-  Future<List<TaskModel>> getUsersWithTask() async {
+  Future<List<UserModel>> getUsersWithTask() async {
+    List<UserModel> listUsersWithTask = [];
     var db = await SqliteDatabase().getDatabase();
     var result = await db.rawQuery(
-        "SELECT DISTINCT user.idUser, user.name FROM user INNER JOIN task ON user.idUser = task.idUser");
-    print(result);
-    return [];
+        "SELECT DISTINCT * FROM user INNER JOIN task ON user.idUser = task.idUser GROUP BY user.name");
+    for (var element in result) {
+      listUsersWithTask.add(UserModel.fromJson(element));
+    }
+    return listUsersWithTask;
   }
 
   @override
