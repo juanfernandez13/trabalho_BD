@@ -3,7 +3,7 @@ import 'package:app_users/models/user_model.dart';
 import 'package:app_users/repositories/impl/database.dart';
 import 'package:app_users/repositories/user_repository.dart';
 
-class SqliteRepositoryImpl implements SqliteRepository {
+class SqliteRepositoryImpl extends SqliteRepository {
   SqliteRepositoryImpl();
   SqliteRepositoryImpl._criar();
 
@@ -136,8 +136,8 @@ class SqliteRepositoryImpl implements SqliteRepository {
   @override
   Future<void> updateUser(UserModel user) async {
     var db = await SqliteDatabase().getDatabase();
-    await db.rawUpdate('UPDATE user SET name = ?, cpf = ?, email = ? WHERE idUser = ?',
-        [user.name, user.cpf, user.email, user.idUser]);
+    await db.rawUpdate('UPDATE user SET name = ?, cpf = ?, email = ?,age = ? WHERE idUser = ?',
+        [user.name, user.cpf, user.email, user.age ,user.idUser]);
   }
 
   @override

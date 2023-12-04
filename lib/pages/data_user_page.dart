@@ -2,6 +2,7 @@ import 'package:app_users/models/user_model.dart';
 import 'package:app_users/repositories/impl/sqlite_user_repository.dart';
 import 'package:app_users/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class DataUserPage extends StatefulWidget {
   final UserModel? userModel;
@@ -34,7 +35,7 @@ class _DataUserPageState extends State<DataUserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("${widget.userModel == null? "Criar" : "Editar"} usuário"),
+        title: Text("${widget.userModel == null ? "Criar" : "Editar"} usuário"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -44,51 +45,48 @@ class _DataUserPageState extends State<DataUserPage> {
             Column(
               children: [
                 TextField(
-              decoration: const InputDecoration(
-                hintText: "Digite seu nome"
-              ),
-              controller: nameController,
-            ),
-            TextField(
-              decoration: const InputDecoration(
-                hintText: "Digite sua idade"
-              ),
-              controller: ageController,
-            ),
-            TextField(
-              decoration: const InputDecoration(
-                hintText: "Digite seu cpf"
-              ),
-              controller: cpfController,
-            ),
-            TextField(
-              decoration: const InputDecoration(
-                hintText: "Digite seu email"
-              ),
-              controller: emailController,
-            ),
+                  decoration:
+                      const InputDecoration(hintText: "Digite seu nome"),
+                  controller: nameController,
+                ),
+                TextField(
+                  decoration:
+                      const InputDecoration(hintText: "Digite sua idade"),
+                  controller: ageController,
+                ),
+                TextField(
+                  decoration: const InputDecoration(hintText: "Digite seu cpf"),
+                  controller: cpfController,
+                ),
+                TextField(
+                  decoration:
+                      const InputDecoration(hintText: "Digite seu email"),
+                  controller: emailController,
+                ),
               ],
             ),
-            TextButton(
-                onPressed: () async {
-                  SqliteRepository repository = SqliteRepositoryImpl();
-                  widget.userModel == null
-                      ? await repository.saveUser(UserModel(
-                          "",
-                          nameController.text,
-                          int.tryParse(ageController.text) ?? 0,
-                          cpfController.text,
-                          emailController.text))
-                      : repository.updateUser(UserModel(
-                          widget.userModel!.idUser,
-                          nameController.text,
-                          int.tryParse(ageController.text) ?? 0,
-                          cpfController.text,
-                          emailController.text));
-                  if(context.mounted) Navigator.pop(context);
-                },
-                child: Text(
-                    "${widget.userModel == null ? "Salvar" : "Editar"} usuário"))
+            Observer(builder: (context) {
+              return TextButton(
+                  onPressed: () async {
+                    SqliteRepository repository = SqliteRepositoryImpl();
+                    widget.userModel == null
+                        ? await repository.saveUser(UserModel(
+                            "",
+                            nameController.text,
+                            int.tryParse(ageController.text) ?? 0,
+                            cpfController.text,
+                            emailController.text))
+                        : repository.updateUser(UserModel(
+                            widget.userModel!.idUser,
+                            nameController.text,
+                            int.tryParse(ageController.text) ?? 0,
+                            cpfController.text,
+                            emailController.text));
+                    if (context.mounted) Navigator.pop(context);
+                  },
+                  child: Text(
+                      "${widget.userModel == null ? "Salvar" : "Editar"} usuário"));
+            })
           ],
         ),
       ),

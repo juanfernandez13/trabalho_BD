@@ -73,6 +73,8 @@ class _UserTasksPageState extends State<UserTasksPage> {
                             IconButton(
                                 onPressed: () async {
                                   await sqliteUserRepository.deleteTask(task);
+                                  userTasksList =
+                                          await sqliteUserRepository.getUserTasks(widget.id);
                                   setState(() {
                                     
                                   });

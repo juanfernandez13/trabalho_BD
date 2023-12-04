@@ -34,8 +34,7 @@ class _UsersPageState extends State<UsersPage> {
           title: const Text('Lista de usuários'),
         ),
         body: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
               Row(
@@ -76,9 +75,12 @@ class _UsersPageState extends State<UsersPage> {
                                                 ))),
                                     icon: const Icon(Icons.edit)),
                                 IconButton(
-                                    onPressed: () async =>
-                                        await userRepository
-                                            .deleteUser(user),
+                                    onPressed: () async {
+                                      await userRepository.deleteUser(user);
+                                      listUsers =
+                                          await userRepository.getUsers();
+                                      setState(() {});
+                                    },
                                     icon: const Icon(Icons.delete)),
                               ],
                             ),
