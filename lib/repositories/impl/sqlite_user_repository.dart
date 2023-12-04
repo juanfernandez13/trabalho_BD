@@ -70,7 +70,6 @@ class SqliteRepositoryImpl implements SqliteRepository {
   @override
   Future<Map<String, double>> getCountTasksCompletedAndIncompleted() async {
     Map<String, double> chartMap = {};
-    List<TaskModel> userTasksList = [];
     var db = await SqliteDatabase().getDatabase();
     var result = await db.rawQuery(
         '''SELECT COUNT(*) AS completo FROM task GROUP BY task.isCompleted''');
@@ -84,8 +83,6 @@ class SqliteRepositoryImpl implements SqliteRepository {
       chartMap["Completo"] =
           double.tryParse(result.last.values.single.toString()) ?? 0;
     }
-    print(result);
-    print(chartMap);
     return chartMap;
   }
 
