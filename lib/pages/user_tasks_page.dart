@@ -49,18 +49,39 @@ class _UserTasksPageState extends State<UserTasksPage> {
                             setState(() {});
                           }),
                       title: TextFormField(
-                        decoration: const InputDecoration(border: InputBorder.none),
+                        minLines: 1,
+                        maxLines: 6,
+                        decoration:
+                            const InputDecoration(border: InputBorder.none),
                         initialValue: task.description,
-                        onChanged: (value) async{
+                        onChanged: (value) async {
                           setState(() {
                             task.description = value;
                           });
                           await sqliteUserRepository.updateTask(task);
                         },
                       ),
-                      trailing: Icon(
-                        Icons.task,
-                        color: task.isCompleted ? Colors.green : Colors.red,
+                      trailing: FittedBox(
+                        fit: BoxFit.contain,
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.task,
+                              color:
+                                  task.isCompleted ? Colors.green : Colors.red,
+                            ),
+                            IconButton(
+                                onPressed: () async {
+                                  await sqliteUserRepository.deleteTask(task);
+                                  userTasksList =
+                                          await sqliteUserRepository.getUserTasks(widget.id);
+                                  setState(() {
+                                    
+                                  });
+                                },
+                                icon: const Icon(Icons.delete))
+                          ],
+                        ),
                       ),
                     );
                   }))

@@ -14,7 +14,6 @@ class DashBoardPage extends StatefulWidget {
 
 class _DashBoardPageState extends State<DashBoardPage> {
   SqliteRepository repository = SqliteRepositoryImpl();
-
   String max = "";
   String avg = "";
   String min = "";
@@ -60,7 +59,6 @@ class _DashBoardPageState extends State<DashBoardPage> {
               child: PieChart(
                 dataMap: data,
                 animationDuration: const Duration(milliseconds: 800),
-                //chartType: ChartType.ring,
                 chartValuesOptions: const ChartValuesOptions(
                   showChartValuesInPercentage: true,
                 ),
@@ -77,7 +75,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     child: Column(
                       children: [
                         const Text("Maior idade"),
-                        Text(max),
+                        Text(max == "null" ? "0" : max),
                       ],
                     ),
                   ),
@@ -89,7 +87,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     child: Column(
                       children: [
                         const Text("media de idades"),
-                        Text(avg),
+                        Text(avg == "null" ? "0" : avg),
                       ],
                     ),
                   ),
@@ -101,7 +99,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     child: Column(
                       children: [
                         const Text("Menor idade"),
-                        Text(min),
+                        Text(min == "null" ? "0" : min),
                       ],
                     ),
                   ),

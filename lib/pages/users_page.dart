@@ -29,80 +29,84 @@ class _UsersPageState extends State<UsersPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            appBar: AppBar(
-              automaticallyImplyLeading: false,
-              title: const Text('Lista de usuários'),
-              backgroundColor: Colors.blue,
-            ),
-            body: Column(
-              children: [
-                Row(
-                  children: [
-                    const Text("Apenas usuários com tarefas"),
-                    Switch(
-                        value: switchValue,
-                        onChanged: (value) async {
-                          switchValue = value;
-                          listUsers = switchValue? await userRepository.getUsersWithTask() :await userRepository.getUsers(); 
-                          setState(() {
-                            
-                          });
-                        }),
-                  ],
-                ),
-                Expanded(
-                    child: ListView.builder(
-                        itemCount: listUsers.length,
-                        itemBuilder: (context, index) {
-                          UserModel user = listUsers[index];
-                          return ListTile(
-                            title: Text(user.name),
-                            subtitle: Text(
-                              user.email,
-                            ),
-                            leading: const Icon(Icons.person_2_rounded),
-                            trailing: FittedBox(
-                              fit: BoxFit.contain,
-                              child: Row(
-                                children: [
-                                  IconButton(
-                                      onPressed: () => Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => DataUserPage(
-                                                    userModel: user,
-                                                  ))),
-                                      icon: const Icon(Icons.edit)),
-                                  IconButton(
-                                      onPressed: () async =>
-                                          await userRepository.deleteUser(user),
-                                      icon: const Icon(Icons.delete)),
-                                ],
-                              ),
-                            ),
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) =>
-                                        UserTasksPage(id: user.idUser))),
-                          );
-                        }))
-              ],
-            ),
-            floatingActionButton: ElevatedButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const DataUserPage(),
-                ),
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Lista de usuários'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  const Text("Apenas usuários com tarefas"),
+                  Switch(
+                      value: switchValue,
+                      onChanged: (value) async {
+                        switchValue = value;
+                        listUsers = switchValue
+                            ? await userRepository.getUsersWithTask()
+                            : await userRepository.getUsers();
+                        setState(() {});
+                      }),
+                ],
               ),
-              child: const FittedBox(
-                  fit: BoxFit.contain,
-                  child: Row(
-                    children: [Icon(Icons.add), Text("Novo usuário")],
-                  )),
-            )));
+              Expanded(
+                  child: ListView.builder(
+                      itemCount: listUsers.length,
+                      itemBuilder: (context, index) {
+                        UserModel user = listUsers[index];
+                        return ListTile(
+                          title: Text(user.name),
+                          subtitle: Text(
+                            user.email,
+                          ),
+                          leading: const Icon(Icons.person_2_rounded),
+                          trailing: FittedBox(
+                            fit: BoxFit.contain,
+                            child: Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => DataUserPage(
+                                                  userModel: user,
+                                                ))),
+                                    icon: const Icon(Icons.edit)),
+                                IconButton(
+                                    onPressed: () async {
+                                      await userRepository.deleteUser(user);
+                                      listUsers =
+                                          await userRepository.getUsers();
+                                      setState(() {});
+                                    },
+                                    icon: const Icon(Icons.delete)),
+                              ],
+                            ),
+                          ),
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) =>
+                                      UserTasksPage(id: user.idUser))),
+                        );
+                      }))
+            ],
+          ),
+        ),
+        floatingActionButton: ElevatedButton(
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const DataUserPage(),
+            ),
+          ),
+          child: const FittedBox(
+              fit: BoxFit.contain,
+              child: Row(
+                children: [Icon(Icons.add), Text("Novo usuário")],
+              )),
+        ));
   }
 }

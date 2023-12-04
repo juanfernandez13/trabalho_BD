@@ -14,13 +14,25 @@ class DataTaskUserPage extends StatefulWidget {
 class _DataTaskUserPageState extends State<DataTaskUserPage> {
   TextEditingController descriptionController = TextEditingController();
   SqliteRepository repository = SqliteRepositoryImpl();
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Criar tarefa"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal:16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+              minLines: 6,
+              maxLines: 6,
+              decoration: const InputDecoration(
+                hintText: "Digite a descrição"
+                
+              ),
               controller: descriptionController,
             ),
             TextButton(

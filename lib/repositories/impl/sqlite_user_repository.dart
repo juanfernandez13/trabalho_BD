@@ -4,7 +4,7 @@ import 'package:app_users/repositories/impl/database.dart';
 import 'package:app_users/repositories/user_repository.dart';
 import 'package:flutter/foundation.dart';
 
-class SqliteRepositoryImpl implements SqliteRepository {
+class SqliteRepositoryImpl extends SqliteRepository {
   SqliteRepositoryImpl();
   SqliteRepositoryImpl._criar();
 
@@ -71,7 +71,6 @@ class SqliteRepositoryImpl implements SqliteRepository {
   @override
   Future<Map<String, double>> getCountTasksCompletedAndIncompleted() async {
     Map<String, double> chartMap = {};
-    List<TaskModel> userTasksList = [];
     var db = await SqliteDatabase().getDatabase();
     var result = await db.rawQuery(
         '''SELECT COUNT(*) AS completo FROM task GROUP BY task.isCompleted''');
@@ -142,8 +141,8 @@ class SqliteRepositoryImpl implements SqliteRepository {
   @override
   Future<void> updateUser(UserModel user) async {
     var db = await SqliteDatabase().getDatabase();
-    await db.rawUpdate('UPDATE user SET name = ?, cpf = ?, email = ?',
-        [user.name, user.cpf, user.email]);
+    await db.rawUpdate('UPDATE user SET name = ?, cpf = ?, email = ?,age = ? WHERE idUser = ?',
+        [user.name, user.cpf, user.email, user.age ,user.idUser]);
   }
 
   @override
