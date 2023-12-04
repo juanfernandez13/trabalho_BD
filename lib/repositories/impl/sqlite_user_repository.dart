@@ -139,8 +139,8 @@ class SqliteRepositoryImpl implements SqliteRepository {
   @override
   Future<void> updateUser(UserModel user) async {
     var db = await SqliteDatabase().getDatabase();
-    await db.rawUpdate('UPDATE user SET name = ?, cpf = ?, email = ?',
-        [user.name, user.cpf, user.email]);
+    await db.rawUpdate('UPDATE user SET name = ?, cpf = ?, email = ? WHERE idUser = ?',
+        [user.name, user.cpf, user.email, user.idUser]);
   }
 
   @override

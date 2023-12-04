@@ -32,21 +32,42 @@ class _DataUserPageState extends State<DataUserPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("${widget.userModel == null? "Criar" : "Editar"} usuário"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            TextField(
+            Column(
+              children: [
+                TextField(
+              decoration: const InputDecoration(
+                hintText: "Digite seu nome"
+              ),
               controller: nameController,
             ),
             TextField(
+              decoration: const InputDecoration(
+                hintText: "Digite sua idade"
+              ),
               controller: ageController,
             ),
             TextField(
+              decoration: const InputDecoration(
+                hintText: "Digite seu cpf"
+              ),
               controller: cpfController,
             ),
             TextField(
+              decoration: const InputDecoration(
+                hintText: "Digite seu email"
+              ),
               controller: emailController,
+            ),
+              ],
             ),
             TextButton(
                 onPressed: () async {
@@ -64,7 +85,7 @@ class _DataUserPageState extends State<DataUserPage> {
                           int.tryParse(ageController.text) ?? 0,
                           cpfController.text,
                           emailController.text));
-                  Navigator.pop(context);
+                  if(context.mounted) Navigator.pop(context);
                 },
                 child: Text(
                     "${widget.userModel == null ? "Salvar" : "Editar"} usuário"))

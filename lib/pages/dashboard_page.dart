@@ -77,7 +77,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     child: Column(
                       children: [
                         const Text("Maior idade"),
-                        Text(max),
+                        Text(max == "null"? "0" : max),
                       ],
                     ),
                   ),
@@ -89,7 +89,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     child: Column(
                       children: [
                         const Text("media de idades"),
-                        Text(avg),
+                        Text(avg == "null"? "0" : avg),
                       ],
                     ),
                   ),
@@ -101,7 +101,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     child: Column(
                       children: [
                         const Text("Menor idade"),
-                        Text(min),
+                        Text(min == "null"? "0" : min),
                       ],
                     ),
                   ),
