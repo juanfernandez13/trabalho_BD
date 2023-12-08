@@ -2,6 +2,7 @@ import 'package:app_users/models/task_model.dart';
 import 'package:app_users/models/user_model.dart';
 import 'package:app_users/repositories/impl/database.dart';
 import 'package:app_users/repositories/user_repository.dart';
+import 'package:flutter/foundation.dart';
 
 class SqliteRepositoryImpl extends SqliteRepository {
   SqliteRepositoryImpl();
@@ -82,6 +83,10 @@ class SqliteRepositoryImpl extends SqliteRepository {
     if (result.length == 2) {
       chartMap["Completo"] =
           double.tryParse(result.last.values.single.toString()) ?? 0;
+    }
+    if (kDebugMode) {
+      print(result);
+      print(chartMap);
     }
     return chartMap;
   }

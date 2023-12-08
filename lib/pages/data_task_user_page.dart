@@ -39,7 +39,8 @@ class _DataTaskUserPageState extends State<DataTaskUserPage> {
                 onPressed: () async {
                   await repository.saveTask(TaskModel(
                       "", widget.idUser!, descriptionController.text, false));
-                  if(context.mounted) Navigator.pop(context);
+                      if(!context.mounted) return;
+                      Navigator.of(context).pop();
                 },
                 child: const Text("Salvar tarefa"))
           ],

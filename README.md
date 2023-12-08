@@ -37,6 +37,11 @@ Veja o arquivo [SECURITY.md]() para detalhes.
 
 Este projeto está sob a licença (MIT) - veja o arquivo [LICENSE.md]() para detalhes.
 
+## 🚧 schema
+
+![Schema](https://www.canva.com/design/DAF2CXjRLTU/sua0VYjh1tYFQS8z8iYF6w/edit?utm_content=DAF2CXjRLTU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
@@ -49,3 +54,4 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
