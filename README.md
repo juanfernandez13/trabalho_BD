@@ -1,7 +1,7 @@
 # app_users
 
 Trabalho final da disciplina de banco de dados IFCE - Fortaleza
-![esquema][https://github.com/juanfernandez13/trabalho_BD/blob/main/BD.png]
+![esquema](https://github.com/juanfernandez13/trabalho_BD/blob/main/BD.png)
 
 ## 🛠️ Construído com
 
